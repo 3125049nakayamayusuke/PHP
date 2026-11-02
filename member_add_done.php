@@ -15,7 +15,15 @@
             $pass= htmlspecialchars($pass);
             $email= htmlspecialchars($email);
             $address= htmlspecialchars($address);
- 
+
+            $dbh=new PDO('sqlite:phpkiso.db');
+            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $dbh->exec('CREATE TABLE IF NOT EXISTS anketo(id INTEGER PRIMARY KEY,name TEXT,pass TEXT,email TEXT,address TEXT)');
+            $sql='INSERT INTO anketo(nickname,email,goiken)VALUES("'.$nickname.'","'.$email.'","'.$goiken.'")';         
+            $stmt=$dbh->prepare($sql);
+            $stmt->execute();
+            $dbh=null;
+
             print '下記の内容で登録しました。 <br>';
             print '氏名：';
             print $name;
